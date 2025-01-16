@@ -3,26 +3,28 @@ import {RiVideoFill, RiVideoLine} from "react-icons/ri";
 import {CgProfile} from 'react-icons/cg'
 
 export const menu=[
-    {title:'Home', icon:<AiOutlineHome />, activeIcon:<AiFillHome/>},
-    {
-        title:'Search' , icon: <AiOutlineSearch/> , activeIcon: <AiOutlineSearch/>
+    {   
+        title:'Home', icon:<AiOutlineHome className="text -2xl mr-5"/>, activeIcon:<AiFillHome/>
     },
     {
-        title:'Explore' , icon:<AiOutlineCompass/>, activeIcon:<AiFillCompass/>
+        title:'Search' , icon: <AiOutlineSearch className="text -2xl mr-5"/> , activeIcon: <AiOutlineSearch/>
     },
     {
-        title:"Reels", icon:<RiVideoLine/> , activeIcon:<RiVideoFill/>
+        title:'Explore' , icon:<AiOutlineCompass className="text -2xl mr-5"/>, activeIcon:<AiFillCompass/>
     },
     {
-        title:'message', icon:<AiOutlineMessage/> , activeIcon:<AiFillMessage/>
+        title:"Reels", icon:<RiVideoLine className="text -2xl mr-5"/> , activeIcon:<RiVideoFill/>
     },
     {
-        title:'Notification', icon:<AiOutlineHeart/>, activeIcon:<AiFillHeart/>
+        title:'message', icon:<AiOutlineMessage className="text -2xl mr-5"/> , activeIcon:<AiFillMessage/>
     },
     {
-        title:'Create', icon:<AiOutlinePlusCircle/>, activeIcon:<AiFillPlusCircle/>
+        title:'Notification', icon:<AiOutlineHeart className="text -2xl mr-5"/>, activeIcon:<AiFillHeart/>
     },
     {
-        title:'Profile', icon:<CgProfile/> , activeIcon:<CgProfile/>
+        title:'Create', icon:<AiOutlinePlusCircle className="text -2xl mr-5"/>, activeIcon:<AiFillPlusCircle/>
+    },
+    {
+        title:'Profile', icon:<CgProfile className="text -2xl mr-5"/> , activeIcon:<CgProfile/>
     }
 ]
