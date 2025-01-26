@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import { Modal, ModalOverlay, ModalContent, ModalBody } from "@chakra-ui/react";
 import CommentCard from "./CommentCard";
-import { BsBookmark, BsThreeDots, BsBookmarkFill } from "react-icons/bs";
+import {
+  BsBookmark,
+  BsThreeDots,
+  BsBookmarkFill,
+  BsEmojiSmile,
+} from "react-icons/bs";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { FaRegComment } from "react-icons/fa";
 import { RiSendPlaneLine } from "react-icons/ri";
+import "./CommentsModal.css";
 
 const CommentsModal = ({
   onClose,
@@ -46,12 +52,12 @@ const CommentsModal = ({
                   <BsThreeDots />
                 </div>
                 <hr />
-                <div>
+                <div className="comment">
                   {[1, 1, 1, 1].map(() => (
                     <CommentCard />
                   ))}
                 </div>
-                {/* --------------- */}
+
                 <div className="flex justify-between items-center w-full py-4">
                   <div className="flex items-center space-x-2">
                     {isPostLiked ? (
@@ -79,7 +85,22 @@ const CommentsModal = ({
                     )}
                   </div>
                 </div>
-                {/* ------------- */}
+
+                <div className="flex items-center space-x-10 w-full py-2">
+                  <p>10 like</p>
+                  <p className="flex opacity-50 text-sm">1 day ago</p>
+                </div>
+
+                <div className="border border-t w-full">
+                  <div className="flex items-center space-x-5 w-full py-2 px-5">
+                    <BsEmojiSmile />
+                    <input
+                      className="commentInput"
+                      type="text"
+                      placeholder="Add a Comment..."
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </ModalBody>
