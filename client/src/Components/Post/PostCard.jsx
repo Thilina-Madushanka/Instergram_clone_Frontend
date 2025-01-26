@@ -9,6 +9,7 @@ import "./PostCard.css";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { FaRegComment } from "react-icons/fa";
 import { RiSendPlaneLine } from "react-icons/ri";
+import CommentsModal from "../Comments/CommentsModal";
 
 const PostCard = () => {
   const [showDropDown, setShowDropDown] = useState(false);
@@ -107,6 +108,8 @@ const PostCard = () => {
           </div>
         </div>
       </div>
+
+      <CommentsModal />
     </div>
   );
 };
