@@ -1,16 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal, ModalOverlay, ModalContent, ModalBody } from "@chakra-ui/react";
-import { BsThreeDots } from "react-icons/bs";
 import CommentCard from "./CommentCard";
+import { BsBookmark, BsThreeDots, BsBookmarkFill } from "react-icons/bs";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { FaRegComment } from "react-icons/fa";
+import { RiSendPlaneLine } from "react-icons/ri";
 
-const CommentsModal = ({ onClose, isOpen }) => {
+const CommentsModal = ({
+  onClose,
+  isOpen,
+  isSaved,
+  isPostLiked,
+  handlePostLike,
+  handleSavePost,
+}) => {
   return (
     <div>
       <Modal size={"4xl"} onClose={onClose} isOpen={true} isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalBody>
-            <div className="flex h-[75vh]">
+            <div className="flex h-[85vh]">
               <div className="w-[45%] flex flex-col justify-center">
                 <img
                   className="max-h-full w-full"
@@ -41,6 +51,35 @@ const CommentsModal = ({ onClose, isOpen }) => {
                     <CommentCard />
                   ))}
                 </div>
+                {/* --------------- */}
+                <div className="flex justify-between items-center w-full py-4">
+                  <div className="flex items-center space-x-2">
+                    {isPostLiked ? (
+                      <AiFillHeart
+                        className="text-2xl hover:opacity-50 cursor-pointer text-red-600"
+                        onClick={handlePostLike}
+                      />
+                    ) : (
+                      <AiOutlineHeart onClick={handlePostLike} />
+                    )}
+                    <FaRegComment className="text-xl hover:opacity-50 cursor-pointer" />
+                    <RiSendPlaneLine className="text-xl hover:opacity-50 cursor-pointer" />
+                  </div>
+                  <div className="cursor-pointer">
+                    {isSaved ? (
+                      <BsBookmarkFill
+                        onClick={handleSavePost}
+                        className="text-xl hover:opacity-50 cursor-pointer"
+                      />
+                    ) : (
+                      <BsBookmark
+                        onClick={handleSavePost}
+                        className="text-xl hover:opacity-50 cursor-pointer"
+                      />
+                    )}
+                  </div>
+                </div>
+                {/* ------------- */}
               </div>
             </div>
           </ModalBody>
