@@ -22,7 +22,7 @@ const CommentsModal = ({
 }) => {
   return (
     <div>
-      <Modal size={"4xl"} onClose={onClose} isOpen={true} isCentered>
+      <Modal size={"4xl"} onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalBody>
