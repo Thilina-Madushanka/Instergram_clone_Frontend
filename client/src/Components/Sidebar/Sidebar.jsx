@@ -4,10 +4,13 @@ import { menu } from "./SidebarConfig";
 import { useNavigate } from "react-router-dom";
 import CreatePostModal from "../Post/CreatePostModal";
 import { useDisclosure } from "@chakra-ui/react";
+import SearchComponents from "../SearchComponents/SearchComponents";
+
 const Sidebar = () => {
   const [activeTab, setActiveTab] = useState();
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
 
   const handleTabClick = (title) => {
     setActiveTab(title);
@@ -17,52 +20,67 @@ const Sidebar = () => {
       navigate("/");
     } else if (title === "Create") {
       onOpen();
-    }
+    } else if (title === "Search") {
+      setIsSearchVisible(true);
+    } else setIsSearchVisible(false);
   };
 
   return (
-    //when page scrolling side bat doesnot scroll
-    <div className="stickey top-0 h-[100vh]">
-      <div className="flex flex-col justify-between h-full px-10">
-        <div>
-          <div className="pt-10">
-            <img
-              className="w-40"
-              src="https://tse1.mm.bing.net/th?id=OIP.vDOq6L5PbY7XrDGK5TjNLAHaC7&pid=Api&P=0&h=180"
-              alt=""
-            />
-          </div>
-          <div className="mt-10">
-            {/* handle click methods to navigate */}
-            {menu.map((item) => (
-              <div
-                onClick={() => handleTabClick(item.title)}
-                className="flex items-center mb-5 cursor-pointer text-lg"
-              >
-                {/* when we click the tab it become bold and effect left */}
-                {activeTab === item.title ? item.activeIcon : item.icon}
-                <p
-                  className={`${
-                    activeTab === item.title ? "font-bold" : "font-semibold"
-                  }`}
-                  // style={{
-                  //   minWidth: "100px", // Ensures consistent width
-                  //   textAlign: "left", // Aligns text properly
-                  // }}
-                >
-                  {item.title}
-                </p>
+    // Sidebar stays fixed on the left
+    <div className="fixed top-0 left-0 h-screen w-[250px] bg-white z-50 overflow-hidden shadow-md flex">
+      <div
+        className={`flex flex-col justify-between h-full ${
+          activeTab === "Search" ? "px-2" : "px-10"
+        }`}
+      >
+        {
+          <div>
+            {activeTab !== "Search" && (
+              <div className="pt-10">
+                <img
+                  className="w-40"
+                  src="https://tse1.mm.bing.net/th?id=OIP.vDOq6L5PbY7XrDGK5TjNLAHaC7&pid=Api&P=0&h=180"
+                  alt="Logo"
+                />
               </div>
-            ))}
+            )}
+            <div className="mt-10">
+              {/* Handle click methods to navigate */}
+              {menu.map((item) => (
+                <div
+                  key={item.title}
+                  onClick={() => handleTabClick(item.title)}
+                  className="flex items-center mb-5 cursor-pointer text-lg"
+                >
+                  {/* Active tab styling */}
+                  {activeTab === item.title ? item.activeIcon : item.icon}
+                  {activeTab !== "Search" && (
+                    <p
+                      className={`ml-3 ${
+                        activeTab === item.title ? "font-bold" : "font-semibold"
+                      }`}
+                    >
+                      {item.title}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-        {/* this dev tag mention tne more icon */}
+        }
+
         <div className="flex items-center cursor-pointer pb-10">
           <IoReorderThree className="text-2xl" />
-          <p className="ml-5">more</p>
+          {activeTab !== "Search" && <p className="ml-5">More</p>}
         </div>
       </div>
+
       <CreatePostModal onClose={onClose} isOpen={isOpen} />
+
+      {/* search bar modification using onClose method */}
+      {isSearchVisible && (
+        <SearchComponents onClose={() => setIsSearchVisible(false)} />
+      )}
     </div>
   );
 };
