@@ -2,23 +2,22 @@ import React, { useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
 const CommentCard = () => {
-  const [isCommentLike, setIsCommentLike] = useState(false); // Set an initial state of false
+  const [isCommentLike, setIsCommentLike] = useState(false);
 
   const handleLikeComment = () => {
     setIsCommentLike(!isCommentLike);
   };
 
   return (
-    <div>
-      <div className="flex items-center">
-        <div className="flex items-center justify-between py-5">
-          <div>
-            <img
-              className="w-9 h-9 rounded-full"
-              src="https://tse3.mm.bing.net/th?id=OIP.5FjI0ydKpiuhD1rybBgtNAHaHa&pid=Api&P=0&h=180"
-              alt=""
-            />
-          </div>
+    <div className="p-3 border-b">
+      <div className="flex items-center justify-between py-5">
+        {/* Profile Image & Comment */}
+        <div className="flex items-center">
+          <img
+            className="w-9 h-9 rounded-full"
+            src="https://tse3.mm.bing.net/th?id=OIP.5FjI0ydKpiuhD1rybBgtNAHaHa&pid=Api&P=0&h=180"
+            alt=""
+          />
           <div className="ml-3">
             <p>
               <span className="font-semibold">username</span>
@@ -31,17 +30,20 @@ const CommentCard = () => {
           </div>
         </div>
 
-        {isCommentLike ? (
-          <AiFillHeart
-            onClick={handleLikeComment}
-            className="text-xs hover:opacity-50 cursor-pointer text-red-600"
-          />
-        ) : (
-          <AiOutlineHeart
-            onClick={handleLikeComment}
-            className="text-xs hover:opacity-50 cursor-pointer"
-          />
-        )}
+        {/* Heart Icon Moved to Right */}
+        <div className="ml-auto">
+          {isCommentLike ? (
+            <AiFillHeart
+              onClick={handleLikeComment}
+              className="text-lg hover:opacity-50 cursor-pointer text-red-600"
+            />
+          ) : (
+            <AiOutlineHeart
+              onClick={handleLikeComment}
+              className="text-lg hover:opacity-50 cursor-pointer"
+            />
+          )}
+        </div>
       </div>
     </div>
   );

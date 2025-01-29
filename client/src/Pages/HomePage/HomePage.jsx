@@ -23,7 +23,7 @@ const HomePage = () => {
             ))}
           </div>
         </div>
-        <div className="w-[35%]">
+        <div className="w-[25%]">
           <HomeRight />
         </div>
       </div>
