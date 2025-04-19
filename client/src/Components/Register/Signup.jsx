@@ -153,7 +153,7 @@ const Signup = () => {
                 <Button
                   className="w-full"
                   mt={4}
-                  colorSchema="blue"
+                  colorScheme="blue"
                   type="submit"
                   isLoading={formikProps.isSubmitting}
                 >
