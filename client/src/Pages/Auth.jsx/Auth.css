@@ -1,0 +1,21 @@
+.mobileWallpaper{
+    background-image: url("https://tse3.mm.bing.net/th?id=OIP.iSZtWUjdyyTXvSSbpXBX_wHaE8&pid=Api&P=0&h=180");
+    animation: changeBg 8s infinite;
+}
+
+@Keyframes changeBg{
+
+0%{
+    background-image: url("https://tse2.mm.bing.net/th?id=OIP.2-J41iMIArJeJ7Z_kWMS9wAAAA&pid=Api&P=0&h=180");
+}
+25%{
+    background-image: url("https://tse4.mm.bing.net/th?id=OIP.rJVqwUsQgDLHiBqOGKp-IQHaEK&pid=Api&P=0&h=180");
+}
+50%{
+    background-image: url("https://tse4.mm.bing.net/th?id=OIP.n_a83Fw81YbKqGwFeeUppAHaFT&pid=Api&P=0&h=180");
+}
+75%{
+    background-image: url("https://tse2.mm.bing.net/th?id=OIP.rqehmSRxwFZzHgYOBQzWcgHaEQ&pid=Api&P=0&h=180");
+}
+
+}
