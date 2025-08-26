@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BsBookmark,
   BsThreeDots,
@@ -11,28 +11,63 @@ import { FaRegComment } from "react-icons/fa";
 import { RiSendPlaneLine } from "react-icons/ri";
 import CommentsModal from "../Comments/CommentsModal";
 import { useDisclosure } from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  likePostAction,
+  savePostAction,
+  unLikePostAction,
+  unsavePostAction,
+} from "../../Redux/Post/Action";
+import { isPostLikedByUser, isSavedPost } from "../../Config/Logic";
+import { useNavigate } from "react-router-dom";
 
-const PostCard = () => {
+const PostCard = ({ post }) => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [isPostLiked, setIsPostLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const dispatch = useDispatch();
+  const token = localStorage.getItem("token");
+  const { user } = useSelector((store) => store);
+
+  const data = { jwt: token, postId: post?.id };
+  const navigate = useNavigate();
+
+  console.log("reqUser--->", user.reqUser);
+
+  const handleSavePost = () => {
+    setIsSaved(true);
+    dispatch(savePostAction(data));
+  };
+
+  const handleUnSavePost = () => {
+    setIsSaved(false);
+    dispatch(unsavePostAction(data));
+  };
 
   const handlePostLike = () => {
-    setIsPostLiked(!isPostLiked);
+    setIsPostLiked(true);
+    dispatch(likePostAction(data));
+  };
+
+  const handlePostUnLike = () => {
+    setIsPostLiked(false);
+    dispatch(unLikePostAction(data));
   };
 
   const handleClick = () => {
     setShowDropDown(!showDropDown);
   };
 
-  const handleSavePost = () => {
-    setIsSaved(!isSaved);
-  };
-
   const handleOpenCommentModal = () => {
+    navigate(`/comment/${post.id}`);
     onOpen();
   };
+
+  useEffect(() => {
+    setIsPostLiked(isPostLikedByUser(post, user.reqUser.id));
+    setIsSaved(isSavedPost(user.reqUser, post.id));
+  }, [post.likedByUsers, user.reqUser]);
 
   return (
     <div>
@@ -41,12 +76,15 @@ const PostCard = () => {
           <div className="flex items-center">
             <img
               className="h-12 w-12 rounded-full"
-              src="https://tse3.mm.bing.net/th?id=OIP.wFi9DkjbIGNjlc130gV5_wHaEK&pid=Api&P=0&h=180"
+              src={
+                post.user.userImage ||
+                "https://tse1.mm.bing.net/th?id=OIP.ULdaKJ-nJlOAZqR5lToUWgHaHa&pid=Api&P=0&h=180"
+              }
               alt=""
             />
             <div className="pl-2">
-              <p className="font-semibold text-sm">UserName</p>
-              <p className="flex font-thin text-sm">location</p>
+              <p className="font-semibold text-sm">{post?.user.username}</p>
+              <p className="flex font-thin text-sm">{post.location}</p>
             </div>
           </div>
 
@@ -63,11 +101,7 @@ const PostCard = () => {
         </div>
 
         <div className="w-full">
-          <img
-            className="w-full"
-            src="https://tse3.mm.bing.net/th?id=OIP.eOHQrbQAj6w8uBdACBsDsgHaHa&pid=Api&P=0&h=180"
-            alt=""
-          />
+          <img className="w-full" src={post?.image} alt="" />
         </div>
 
         {/* Icons Section */}
@@ -76,7 +110,7 @@ const PostCard = () => {
             {isPostLiked ? (
               <AiFillHeart
                 className="text-xl hover:opacity-50 cursor-pointer text-red-600"
-                onClick={handlePostLike}
+                onClick={handlePostUnLike}
               />
             ) : (
               <AiOutlineHeart
@@ -94,7 +128,7 @@ const PostCard = () => {
           <div className="cursor-pointer">
             {isSaved ? (
               <BsBookmarkFill
-                onClick={handleSavePost}
+                onClick={handleUnSavePost}
                 className="text-xl hover:opacity-50 cursor-pointer"
               />
             ) : (
@@ -107,8 +141,14 @@ const PostCard = () => {
         </div>
 
         <div className="flex items-center space-x-10 w-full py-2 px-5">
-          <p>10 likes</p>
-          <p className="opacity-50 py-2 cursor-pointer">View All 10 Comments</p>
+          {post?.likedByUsers?.length > 0 && (
+            <p>{post?.likedByUsers?.length}likes</p>
+          )}
+          {post?.comments?.length > 0 && (
+            <p className="opacity-50 py-2 cursor-pointer">
+              View All {post?.comments?.length} Comments
+            </p>
+          )}
         </div>
 
         <div className="border-t w-full">
