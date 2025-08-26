@@ -3,7 +3,7 @@
     overflow-y: scroll;
 }
 .comment::webkit-scrollbar{
-    display: none;;
+    display: none;
 }
 .commentInput{
     border: none;

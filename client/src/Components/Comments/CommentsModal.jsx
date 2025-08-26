@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { Modal, ModalOverlay, ModalContent, ModalBody } from "@chakra-ui/react";
 import CommentCard from "./CommentCard";
 import {
@@ -11,6 +11,14 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { FaRegComment } from "react-icons/fa";
 import { RiSendPlaneLine } from "react-icons/ri";
 import "./CommentsModal.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import {
+  createCommentAction,
+  findPostCommentAction,
+} from "../../Redux/Comment/Action";
+import { findPostByIdAction } from "../../Redux/Post/Action";
+import { timeDifference } from "../../Config/Logic";
 
 const CommentsModal = ({
   onClose,
@@ -20,6 +28,25 @@ const CommentsModal = ({
   handlePostLike,
   handleSavePost,
 }) => {
+  const [commentContent, setCommentContent] = useState();
+  const dispatch = useDispatch();
+  const token = localStorage.getItem("token");
+  const { postId } = useParams();
+  const { comment, post, user } = useSelector((store) => store);
+
+  const handleCommentChange = (e) => {
+    setCommentContent(e.target.value);
+  };
+
+  console.log("post", post);
+
+  useEffect(() => {
+    const data = { jwt: token, postId };
+    if (postId) {
+      dispatch(findPostByIdAction(data));
+    }
+  }, [comment.createdComment, postId, comment.likeComment]);
+
   return (
     <div>
       <Modal size={"4xl"} onClose={onClose} isOpen={isOpen} isCentered>
@@ -30,22 +57,25 @@ const CommentsModal = ({
               <div className="w-[45%] flex flex-col justify-center">
                 <img
                   className="max-h-full w-full"
-                  src="https://tse4.mm.bing.net/th?id=OIP.sIFBOg4WYtSLLCAkeFqOoQHaD5&pid=Api&P=0&h=180"
+                  src={post.singlePost?.image}
                   alt=""
                 />
               </div>
-              <div className="w-[55%] pl-10">
+              <div className="w-[55%] pl-10 relative">
                 <div className="flex justify-between items-center py-5">
                   <div className="flex items-center">
                     <div>
                       <img
                         className="w-9 h-9 rounded-full"
-                        src="https://tse3.mm.bing.net/th?id=OIP.EUyw5OVpOdt_5ED9dw4TzwHaFr&pid=Api&P=0&h=180"
+                        src={
+                          user.reqUser.image ||
+                          "https://tse1.mm.bing.net/th?id=OIP.ULdaKJ-nJlOAZqR5lToUWgHaHa&pid=Api&P=0&h=180"
+                        }
                         alt=""
                       />
                     </div>
                     <div className="ml-2">
-                      <p>User Name</p>
+                      <p>{user.reqUser.username}</p>
                     </div>
                   </div>
 
@@ -53,17 +83,9 @@ const CommentsModal = ({
                 </div>
                 <hr />
 
-                {/* both implementations are work */}
-
-                {/* <div className="comment">
-                  {[1, 1, 1, 1].map((_, index) => (
-                    <CommentCard key={index} />
-                  ))}
-                </div> */}
-
                 <div className="comment">
-                  {[1, 1, 1, 1].map(() => (
-                    <CommentCard />
+                  {post.singlePost?.comments?.map((item) => (
+                    <CommentCard comment={item} />
                   ))}
                 </div>
 
@@ -101,8 +123,12 @@ const CommentsModal = ({
                 </div>
 
                 <div className="flex items-center space-x-10 w-full py-2">
-                  <p>10 likes</p>
-                  <p className="flex opacity-50 text-sm">1 day ago</p>
+                  {post.singlePost?.likedByUsers?.length > 0 && (
+                    <p>{post.singlePost.likedByUsers.length}likes</p>
+                  )}
+                  <p className="flex opacity-50 text-sm">
+                    {timeDifference(post.singlePost?.createdAt)}
+                  </p>
                 </div>
 
                 <div className="border-t w-full">
@@ -112,6 +138,22 @@ const CommentsModal = ({
                       className="commentInput"
                       type="text"
                       placeholder="Add a Comment..."
+                      onChange={(e) => setCommentContent(e.target.value)}
+                      value={commentContent}
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                          const data = {
+                            postId,
+                            jwt: token,
+                            data: {
+                              content: commentContent,
+                            },
+                          };
+
+                          dispatch(createCommentAction(data));
+                          setCommentContent("");
+                        }
+                      }}
                     />
                   </div>
                 </div>
