@@ -22,7 +22,7 @@ export const findStoryByuserId = (data) => async (dispatch) => {
 
     try{
         const res = await fetch(
-            `${BASE_API_URL}/${data.userId}`,
+            `${BASE_API_URL}/stories/${data.userId}`,
             {
             method: 'GET',
             headers: {
