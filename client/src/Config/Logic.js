@@ -29,6 +29,33 @@ export const isSavedPost=(user,postId)=>{
     return false;
 }
 
+function getTimeInHours(timestamp){
+    const date = new Date(timestamp);
+    const hours = date.getHours();
+    return hours;
+
+}
+
+export const hasStory=(users)=>{
+    const temp = users.reduce((acc,item)=>{
+        if(item.stories?.length > 0){
+            const time = getTimeInHours(item.stories[item.stories?.length -1].timestamp);
+            if(time < 24){
+                acc.push(item);
+            }
+        }
+        return acc;
+    },[]);
+    return temp
+}
+
+
+export const isReqUser = (userId1, userId2)=>{
+    if(userId1 && userId2)
+         return userId1 === userId2;
+    
+
+}
 
 export const isFollowing=(reqUser, user2)=>{
     if(reqUser && user2){

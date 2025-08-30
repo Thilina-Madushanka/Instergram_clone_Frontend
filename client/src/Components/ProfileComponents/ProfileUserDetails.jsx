@@ -4,10 +4,11 @@ import { useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const ProfileUserDetails = () => {
-  const { user } = useSelector((store) => store);
+  const { user, post } = useSelector((store) => store);
   const navigate = useNavigate();
 
   console.log("user", user.reqUser);
+  console.log("req user posts", post.profilePost);
 
   return (
     <div className="py-10 w-full">
@@ -33,20 +34,26 @@ const ProfileUserDetails = () => {
           </div>
           <div className="flex space-x-10">
             <div>
-              <span className="font-semibold mr-2">10</span>
+              <span className="font-semibold mr-2">
+                {post?.usersPost?.length || "x"}
+              </span>
               <span>Posts</span>
             </div>
             <div>
-              <span className="font-semibold mr-2">5</span>
+              <span className="font-semibold mr-2">
+                {user.reqUser?.follower.length}
+              </span>
               <span>Follower</span>
             </div>
             <div>
-              <span className="font-semibold mr-2">7</span>
+              <span className="font-semibold mr-2">
+                {user.reqUser?.following.length}
+              </span>
               <span>Following</span>
             </div>
           </div>
           <div>
-            <p className="font-semi-bold">{user?.reqUser?.fullName}</p>
+            <p className="font-semi-bold">{user?.reqUser?.name}</p>
             <p className="font-thin text-sm">
               {user?.reqUser?.bio || "This user has no bio"}
             </p>

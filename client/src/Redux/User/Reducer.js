@@ -1,4 +1,4 @@
-import { FOLLOW_USER, GET_USER_BY_USERNAME, GET_USERS_BY_USER_IDS, REQ_USER, SEARCH_USER, UNFOLLOW_USER, UPDATE_USER } from "./ActionType"
+import { FOLLOW_USER, GET_USER_BY_USERNAME, GET_USERS_BY_USER_IDS, POPULER_USER, REQ_USER, SEARCH_USER, UNFOLLOW_USER, UPDATE_USER } from "./ActionType"
 
 const initialValue={
     reqUser:null,
@@ -37,6 +37,10 @@ export const UserReducer=(store=initialValue,{type,payload})=>{
     else if (type===UPDATE_USER){
         return {...store, updatedUser:payload}
     }
+    else if (type===POPULER_USER){
+        return {...store, populerUsers:payload}
+    }
+
 
     return store;
 }
