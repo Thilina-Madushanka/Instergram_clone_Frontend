@@ -5,6 +5,11 @@ import PostCard from "../../Components/Post/PostCard";
 import { useDisclosure } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { findUserPostAction } from "../../Redux/Post/Action";
+import {
+  findUserByUserIdsAction,
+  getPopulerUser,
+} from "../../Redux/User/Action";
+import { hasStory } from "../../Config/Logic";
 
 const HomePage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -27,6 +32,8 @@ const HomePage = () => {
         userIds: userIds.join(","),
       };
       dispatch(findUserPostAction(data));
+      dispatch(findUserByUserIdsAction(data));
+      dispatch(getPopulerUser(token));
     }
   }, [userIds, post.createdPost, post.deletedPost]);
 
@@ -34,14 +41,15 @@ const HomePage = () => {
     console.log("Fetched posts:", post.usersPost);
   }, [post.usersPost]);
 
+  const storyUsers = hasStory(user.findUserByIds);
+
   return (
     <div>
       <div className="mt-10 flex w-[100%] justify-center">
         <div className="w-[44%] px-10">
           <div className="storyDiv flex space-x-2 border p-4 rounded-md justify-start w-full">
-            {[1, 1, 1, 1].map((item) => (
-              <StoryCircle />
-            ))}
+            {storyUsers.length > 0 &&
+              storyUsers.map((item) => <StoryCircle user={item} />)}
           </div>
           <div className="space-y-10 w-full mt-10">
             {post.usersPost.length > 0 &&

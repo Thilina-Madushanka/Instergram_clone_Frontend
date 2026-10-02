@@ -1,4 +1,4 @@
-import { FOLLOW_USER, GET_USER_BY_USERNAME, GET_USERS_BY_USER_IDS, REQ_USER, SEARCH_USER, UNFOLLOW_USER, UPDATE_USER } from "./ActionType"
+import { FOLLOW_USER, GET_USER_BY_USERNAME, GET_USERS_BY_USER_IDS, POPULER_USER, REQ_USER, SEARCH_USER, UNFOLLOW_USER, UPDATE_USER } from "./ActionType"
 
 const BASE_API_URL= "http://localhost:8082/api"
 
@@ -125,10 +125,34 @@ export const editUserAction = (data) => async(dispatch)=>{
         });
     
         const user = await res.json();
-        console.log("search user:", user);
+        console.log("edited user:", user);
         dispatch({type:UPDATE_USER, payload:user});
     } catch (error) {
-        console.log("catch update error" ,error);
+        console.log("catch error" ,error);
+        
+    }
+     
+}
+
+//http://localhost:8082/api/users/populer
+
+export const getPopulerUser = (jwt) => async(dispatch)=>{
+
+    try {
+        const res = await fetch(`${BASE_API_URL}/users/populer`,{
+            method:"GET",
+            headers:{
+                "Content-Type" :"application/json",
+                Authorization :"Bearer "+jwt
+            },
+            
+        });
+    
+        const user = await res.json();
+        console.log("populer user:", user);
+        dispatch({type:POPULER_USER, payload:user});
+    } catch (error) {
+        console.log("catch error" ,error);
         
     }
      

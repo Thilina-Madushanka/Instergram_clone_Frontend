@@ -9,6 +9,7 @@ const initialValue={
     savedPost:null,
     unsavedPost:null,
     singlePost:null,
+    profilePost:null,
 }
 
 

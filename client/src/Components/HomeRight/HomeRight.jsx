@@ -1,7 +1,10 @@
 import React from "react";
 import SuggetionCard from "./SuggetionCard";
+import { useSelector } from "react-redux";
 
 const HomeRight = () => {
+  const { user, post } = useSelector((store) => store);
+
   return (
     <div className="">
       <div>
@@ -10,13 +13,16 @@ const HomeRight = () => {
             <div>
               <img
                 className="w-12 h-12 rounded-full"
-                src="https://tse1.mm.bing.net/th?id=OIP.nEJsLhy4bcOQ1f6UM0-iYQHaEK&pid=Api&P=0&h=180"
+                src={
+                  user.reqUser?.image ||
+                  "https://tse1.mm.bing.net/th?id=OIP.nEJsLhy4bcOQ1f6UM0-iYQHaEK&pid=Api&P=0&h=180"
+                }
                 alt=""
               />
             </div>
             <div className="ml-3">
-              <p>Full Name</p>
-              <p className="opacity-70">User Name</p>
+              <p>{user.reqUser?.name}</p>
+              <p className="opacity-70">{user.username}</p>
             </div>
           </div>
 
@@ -25,8 +31,8 @@ const HomeRight = () => {
           </div>
         </div>
         <div className="space-y-5 mt-10">
-          {[1, 1, 1, 1, 1].map((item) => (
-            <SuggetionCard />
+          {user.populerUsers?.map((item) => (
+            <SuggetionCard user={item} />
           ))}
         </div>
       </div>
