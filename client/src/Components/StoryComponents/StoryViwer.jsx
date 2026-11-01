@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ProgressBar from "./ProgressBar";
+import Progressbar from "./Progressbar";
 import styled from "styled-components";
 
 const StoryViewerContainer = styled.div`
@@ -41,7 +41,7 @@ const StoryViwer = ({ stories }) => {
         <StoryImage src={stories?.[currentStoryIndex].image} alt="Story" />
         <div className="absolute top-0 flex w-full">
           {stories.map((item, index) => (
-            <ProgressBar
+            <Progressbar
               key={index}
               duration={2000}
               index={index}
